@@ -39,11 +39,11 @@ public class ImageTransformer {
 	//Method to find the neighbors of a 2D Matrix (Image) element.
 	public static int[] findNeighbors(int row, int col) 
     { 
-		//Get original width and height of the image.
-		int width = img.getWidth(null);
-		int height = img.getHeight(null);
+	//Get original width and height of the image.
+	int width = img.getWidth(null);
+	int height = img.getHeight(null);
 		
-		//Arrays to store the red,green and blue values of each neighbor element.
+	//Arrays to store the red,green and blue values of each neighbor element.
         int red[] = new int[9];
         int green[] = new int[9];
         int blue[] = new int[9];
@@ -66,6 +66,14 @@ public class ImageTransformer {
         		}
         	}
         }
+
+	
+	//For pixels in the edges, number of neighbors won't be 9.
+	if(i != 9) {
+		red = Arrays.copyOfRange(red, 0, i);
+		green = Arrays.copyOfRange(green, 0, i);
+		blue = Arrays.copyOfRange(blue, 0, i);
+	}
         
         //Find median of each array.
         int redclr = findMedian(red,red.length);
@@ -100,7 +108,8 @@ public class ImageTransformer {
 				color_array=findNeighbors(row,col);
 				a = (pixel >>24) & 0xFF;
 				p = (a<<24) | (color_array[0]<<16) | (color_array[1]<<8) | color_array[2]; 
-		        denoised_img.setRGB(col, row, p);			}
+			        denoised_img.setRGB(col, row, p);		
+			}
 		}
 	}
 	
@@ -109,8 +118,8 @@ public class ImageTransformer {
 		
 		//Read original image
 		try {
-            img = ImageIO.read(new File("D:\\photo.jpg"));
-            denoise();		//Calling denoise() function.
+            	img = ImageIO.read(new File("D:\\photo.jpg"));
+            	denoise();		//Calling denoise() function.
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,12 +129,12 @@ public class ImageTransformer {
 		
         try
         { 
-            f = new File("D:\\Out.jpg"); 
-            ImageIO.write(denoised_img, "jpg", f); 
+            	f = new File("D:\\Out.jpg"); 
+        	ImageIO.write(denoised_img, "jpg", f); 
         } 
         catch(IOException e) 
         { 
-            System.out.println(e); 
+        	System.out.println(e); 
         }
 
 	}
